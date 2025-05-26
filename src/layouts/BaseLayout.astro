@@ -1,15 +1,47 @@
 ---
 import '@styles/global.css';
+import { SEO } from 'astro-seo';
 
 const { seoTitle } = Astro.props;
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
+const socialImageURL = new URL('/images/preview.webp', Astro.url);
 ---
 
 <html lang="en">
   <head>
+    <SEO
+      title={seoTitle}
+      description="Astro landing page"
+      openGraph={{
+        basic: {
+          title: seoTitle,
+          type: 'website',
+          image: socialImageURL.href,
+          url: 'https://astro-landingpage.netlify.app/',
+        },
+      }}
+      twitter={{
+        creator: '@astrodotbuild',
+      }}
+      extend={{
+        link: [{ rel: 'canonical', href: canonicalUrl.href }],
+        meta: [
+          {
+            name: 'twitter:image',
+            content:
+              'https://user-images.githubusercontent.com/5182256/131216951-8f74f425-f775-463d-a11b-0e01ad9fce8d.png',
+          },
+          { name: 'twitter:title', content: 'Tinker Tailor Soldier Spy' },
+          { name: 'twitter:description', content: 'Agent' },
+        ],
+      }}
+    />
+
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
     <title>{seoTitle}</title>
   </head>
   <body>
